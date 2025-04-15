@@ -7,7 +7,7 @@ Written by Edgar Signe and Gabriela Montejo-Kovacevich
 
 # 🗘️ Interactive GBIF Map Tutorial
 
-This tutorial demonstrates how to download GBIF occurrence records, enrich them with elevation and metadata, and render an interactive map using `leaflet` in R. It includes optional image previews and mock data integration.
+This tutorial demonstrates how to download GBIF occurrence records, enrich them with elevation and metadata, and render an interactive map using `leaflet` in R. It includes optional image previews and mock or real data integration.
 
 ---
 
@@ -49,17 +49,10 @@ install.packages(c("rgbif", "leaflet", "dplyr", "sf", "elevatr", "kableExtra", "
 
 ## 🌐 How to view the map
 
-Open this file in a browser:
+Download and open html map files in a browser, e.g.: map.gbif.photos.html
 
-```
-map.gbif.photos.html
-```
+As GitHub Pages is enabled, one example can be viewed [here](https://gmkov.github.io/mk-lab-public/map.gbif.photos.html) 
 
-If GitHub Pages is enabled:
-
-```
-https://gmkov.github.io/mk-lab-public/map.gbif.photos.html
-```
 
 ---
 
