@@ -1,4 +1,5 @@
 Written by Edgar Signe and Gabriela Montejo-Kovacevich
+
 ## 🌍 TL;DR Example output of Interactive GBIF Map
 
 [Click here to view the live interactive map](https://gmkov.github.io/mk-lab-public/map.gbif.photos.html)
@@ -14,9 +15,10 @@ This tutorial demonstrates how to download GBIF occurrence records, enrich them 
 
 | File | Description |
 |------|-------------|
-| `map.gbif.photos.html` | Fully rendered interactive map (with images from GBIF). |
+| `output/map.gbif.photos.html` | Fully rendered interactive map (with images from GBIF). |
 | `interactive.gbif.map.Rmd` | Source R Markdown file that generates the HTML map. |
-| `map.gbif.photos_files/` | Supporting files (JS, CSS, etc.) for the map output. |
+| `interactive.gbif.map.R` | R script to generate HTML map. |
+| `output/` | Other map outputs. |
 
 ---
 
