@@ -1,0 +1,184 @@
+---
+title: "GBIF Mapping Notebook"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Required Libraries
+```{r libraries}
+# Load the required packages for data retrieval, wrangling, and visualisation
+library(rgbif)        # Access GBIF data using their API
+library(kableExtra)   # Display tables nicely in HTML
+library(dplyr)        # Data manipulation and filtering
+library(leaflet)      # Create interactive web maps
+library(readxl)       # Read Excel files (for custom or local data)
+library(elevatr)      # Fetch elevation data from coordinate points
+library(sf)           # Handle spatial features and projections
+library(htmlwidgets)  # Save HTML widgets like leaflet maps to file
+```
+
+## Retrieve GBIF Occurrence Data with Photos and Elevation
+```{r gbif-function}
+# Define a function to retrieve GBIF occurrence records for a species
+# It also attaches images (if available) and retrieves elevation for each point
+get_gbif_data_with_altitude_photos <- function(species_name, limit = 50) {
+  # Query GBIF API for occurrence data with coordinates
+  occurrences <- occ_search(
+    scientificName = species_name,
+    hasCoordinate = TRUE,
+    hasGeospatialIssue = FALSE,
+    limit = limit
+  )
+
+  # Extract main data and associated media
+  occurrences_data <- occurrences$data
+  occurrences_media <- occurrences$media
+
+  # Extract the first image URL for each record (if available)
+  occurrences_data$Image <- sapply(1:nrow(occurrences_data), function(y) {
+    tryCatch(occurrences_media[[y]][[as.character(occurrences_data$key[y])]][[1]]$identifier, 
+             error = function(e) NA)
+  })
+
+  # Select and rename relevant columns, filling NAs with "Unknown"
+  records <- occurrences_data %>%
+    transmute(
+      Number = row_number(),
+      ID = key,
+      Scientific_Name = scientificName,
+      Latitude = decimalLatitude,
+      Longitude = decimalLongitude,
+      Country = coalesce(country, "Unknown"),
+      State_Province = coalesce(stateProvince, "Unknown"),
+      Date = as.Date(eventDate),
+      Record_Type = coalesce(basisOfRecord, "Unknown"),
+      Source = coalesce(datasetName, "Unknown"),
+      InstitutionCode = coalesce(institutionCode, "Unknown"),
+      Observer = coalesce(recordedBy, "Unknown"),
+      Sex = coalesce(sex, "Unknown"),
+      Life_Stage = coalesce(lifeStage, "Unknown"),
+      GBIF_Link = paste0("https://www.gbif.org/occurrence/", ID),
+      Image = Image,
+      SourceType = "GBIF"
+    ) %>%
+    filter(!is.na(Latitude) & !is.na(Longitude))
+
+  # Convert to a spatial object and query elevation for each point
+  locations <- st_as_sf(records, coords = c("Longitude", "Latitude"), crs = 4326)
+  elevation_data <- get_elev_point(locations, src = "aws")
+  records$Altitude <- elevation_data$elevation
+
+  return(records)
+}
+```
+
+## Download Data for Euphydryas editha
+```{r get-gbif-data}
+# Retrieve data for a focal species, here: Euphydryas editha
+species_name <- "Euphydryas editha"
+gbif_data <- get_gbif_data_with_altitude_photos(species_name, limit = 5000)
+
+# Check what columns are available
+names(gbif_data)
+```
+
+## Display First 10 Records
+```{r preview-table, results='asis'}
+# Preview the first 10 rows of GBIF data as an HTML table
+gbif_data %>%
+  head(10) %>%
+  kable(format = "html", escape = FALSE) %>%
+  kable_styling("striped", full_width = FALSE)
+```
+
+## Map Without Photos
+```{r map-no-photos}
+# Plot GBIF data on a simple interactive map without photos
+leaflet(gbif_data) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    ~Longitude, ~Latitude,
+    color = ~ifelse(SourceType == "GBIF", "red", "blue"),
+    radius = 4, stroke = FALSE, fillOpacity = 0.7,
+    popup = ~paste0("<b>Scientific Name:</b> ", Scientific_Name,
+                    "<br><b>Date:</b> ", format(Date, "%Y-%m-%d"),
+                    "<br><b>Altitude:</b> ", round(Altitude, 2), " m",
+                    "<br><b>InstitutionCode:</b> ", InstitutionCode,
+                    "<br><b>Source:</b> ", SourceType,
+                    ifelse(SourceType == "GBIF", paste0("<br><a href='", GBIF_Link, "' target='_blank'>View on GBIF</a>"), ""))
+  )
+```
+
+## Map With Photos
+```{r map-with-photos}
+# Create an interactive map that includes photo thumbnails if available
+map.gbif.photos <- leaflet(gbif_data) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    ~Longitude, ~Latitude,
+    color = ~case_when(SourceType == "GBIF" ~ "red"),
+    radius = 4, stroke = FALSE, fillOpacity = 0.7,
+    popup = ~paste0("<b>Scientific Name:</b> ", Scientific_Name,
+                    "<br><b>Altitude:</b> ", round(Altitude, 2), " m",
+                    "<br><b>InstitutionCode:</b> ", InstitutionCode,
+                    "<br><b>Date:</b> ", Date,
+                    "<br><b>Source:</b> ", SourceType,
+                    ifelse(SourceType == "GBIF", paste0("<br><a href='", GBIF_Link, "' target='_blank'>View on GBIF</a>"), ""),
+                    ifelse(!is.na(Image), paste0("<br><img src='", Image, "' width='150' height='150'>"), ""))
+  )
+map.gbif.photos
+```
+
+```{r save-map-with-photos, eval=FALSE}
+# Save the photo map as a standalone HTML file
+saveWidget(map.gbif.photos, file = "map.gbif.photos.html", selfcontained = TRUE)
+```
+
+## Add Toy Data and Combine on Map
+```{r toy-data-map}
+# Simulate toy data with 30 random localities in California bounds
+set.seed(123)
+toy_data <- data.frame(
+  Longitude = runif(30, min = -124.4, max = -114.1),
+  Latitude = runif(30, min = 32.5, max = 42.0),
+  Scientific_Name = "test",
+  Altitude = "test",
+  Date = "test",
+  SourceType = "test"
+)
+
+# Combine toy data with GBIF data in a layered map
+map_with_toy <- leaflet(gbif_data) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    data = gbif_data,
+    ~Longitude, ~Latitude,
+    color = ~case_when(SourceType == "GBIF" ~ "red"),
+    radius = 4, stroke = FALSE, fillOpacity = 0.7,
+    popup = ~paste0("<b>Scientific Name:</b> ", Scientific_Name,
+                    "<br><b>Altitude:</b> ", round(as.numeric(Altitude), 2), " m",
+                    "<br><b>InstitutionCode:</b> ", InstitutionCode,
+                    "<br><b>Date:</b> ", Date,
+                    "<br><b>Source:</b> ", SourceType,
+                    ifelse(SourceType == "GBIF", paste0("<br><a href='", GBIF_Link, "' target='_blank'>View on GBIF</a>"), ""),
+                    ifelse(!is.na(Image), paste0("<br><img src='", Image, "' width='150' height='150'>"), ""))
+  ) %>%
+  addCircleMarkers(
+    data = toy_data,
+    ~Longitude, ~Latitude,
+    color = "yellow",
+    radius = 6, stroke = FALSE, fillOpacity = 0.8,
+    popup = ~paste0("<b>Scientific Name:</b> ", Scientific_Name,
+                    "<br><b>Altitude:</b> ", Altitude,
+                    "<br><b>Date:</b> ", Date,
+                    "<br><b>Source:</b> ", SourceType)
+  )
+map_with_toy
+```
+
+```{r save-map-toy, eval=FALSE}
+# Save the map with toy data as a standalone HTML file
+saveWidget(map_with_toy, file = "gbif_map_with_toydata.html", selfcontained = TRUE)
