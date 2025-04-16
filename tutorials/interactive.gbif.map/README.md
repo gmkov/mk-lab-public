@@ -1,5 +1,7 @@
 Written by Edgar Signe [@edgsig](https://github.com/edgsig) and Gabriela Montejo-Kovacevich [@gmkov](https://github.com/gmkov) in 2025
 
+<br>
+
 ## 🌍 TL;DR Example output of Interactive GBIF Map
 
 [Click here to view the live interactive map](https://gmkov.github.io/mk-lab-public/map.gbif.photos.html)
