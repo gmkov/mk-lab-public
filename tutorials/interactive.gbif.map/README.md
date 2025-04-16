@@ -1,4 +1,4 @@
-Written by Edgar Signe and Gabriela Montejo-Kovacevich
+Written by Edgar Signe [@edgsig(https://github.com/edgsig)] and Gabriela Montejo-Kovacevich [@gmkov]. in 2025
 
 ## 🌍 TL;DR Example output of Interactive GBIF Map
 
@@ -7,7 +7,7 @@ Written by Edgar Signe and Gabriela Montejo-Kovacevich
 
 # 🗘️ Interactive GBIF Map Tutorial
 
-This tutorial demonstrates how to download GBIF occurrence records, enrich them with elevation and metadata, and render an interactive map using `leaflet` in R. It includes optional image previews and mock or real data integration.
+This tutorial demonstrates how to download GBIF occurrence records, obtain elevation and metadata, and render an interactive map using `leaflet` in R. It includes optional image previews and mock or real data integration.
 
 ---
 
@@ -18,7 +18,7 @@ This tutorial demonstrates how to download GBIF occurrence records, enrich them 
 | `output/map.gbif.photos.html` | Fully rendered interactive map (with images from GBIF). |
 | `interactive.gbif.map.Rmd` | Source R Markdown file that generates the HTML map. |
 | `interactive.gbif.map.R` | R script to generate HTML map. |
-| `output/` | Other map outputs. |
+| `output/` | Other example html map outputs. |
 
 ---
 
@@ -35,6 +35,9 @@ This tutorial demonstrates how to download GBIF occurrence records, enrich them 
 
 ## 🖥️ How to run it
 
+**Option 1:** `interactive.gbif.map.R` in **RStudio** and run it with your favourite species
+
+**Option 2:**
 1. Open `interactive.gbif.map.Rmd` in **RStudio**
 2. Install required R packages:
 
@@ -47,7 +50,7 @@ install.packages(c("rgbif", "leaflet", "dplyr", "sf", "elevatr", "kableExtra", "
 
 ---
 
-## 🌐 How to view the map
+## 🌐 How to view the map produced
 
 Download and open html map files in a browser, e.g.: map.gbif.photos.html
 
@@ -66,4 +69,5 @@ As GitHub Pages is enabled, one example can be viewed [here](https://gmkov.githu
 
 ## ℹ️ Credits
 
-Built with R, `rgbif`, and `leaflet`. Maintained by [@gmkov](https://github.com/gmkov).
+Built with R, `rgbif`, and `leaflet` by Edgar Signe [@edgsig(https://github.com/edgsig)] and [@gmkov]. Maintained by [@gmkov](https://github.com/gmkov).
+All the iNaturalists contributors
