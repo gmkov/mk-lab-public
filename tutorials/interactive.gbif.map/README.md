@@ -5,6 +5,7 @@ Written by Edgar Signe [@edgsig](https://github.com/edgsig) and Gabriela Montejo
 [Click here to view the live interactive map](https://gmkov.github.io/mk-lab-public/map.gbif.photos.html)
 
 
+
 # 🗘️ Interactive GBIF Map Tutorial
 
 This tutorial demonstrates how to download GBIF occurrence records, obtain elevation and metadata, and render an interactive map using `leaflet` in R. It includes optional image previews and mock or real data integration.
