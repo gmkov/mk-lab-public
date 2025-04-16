@@ -75,4 +75,5 @@ As GitHub Pages is enabled, one example can be viewed [here](https://gmkov.githu
 ## ℹ️ Credits
 
 Built with R, `rgbif`, and `leaflet` by Edgar Signe [@edgsig](https://github.com/edgsig) and Gabriela Montejo-Kovacevich [@gmkov](https://github.com/gmkov). Maintained by [@gmkov](https://github.com/gmkov).
-All the iNaturalists contributors
+All the iNaturalists contributors and ChatGPT for helpful comments.
+
