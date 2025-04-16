@@ -1,4 +1,4 @@
-Written by Edgar Signe [@edgsig(https://github.com/edgsig)] and Gabriela Montejo-Kovacevich [@gmkov]. in 2025
+Written by Edgar Signe [@edgsig](https://github.com/edgsig) and Gabriela Montejo-Kovacevich [@gmkov](https://github.com/gmkov) in 2025
 
 ## 🌍 TL;DR Example output of Interactive GBIF Map
 
@@ -69,5 +69,5 @@ As GitHub Pages is enabled, one example can be viewed [here](https://gmkov.githu
 
 ## ℹ️ Credits
 
-Built with R, `rgbif`, and `leaflet` by Edgar Signe [@edgsig(https://github.com/edgsig)] and [@gmkov]. Maintained by [@gmkov](https://github.com/gmkov).
+Built with R, `rgbif`, and `leaflet` by Edgar Signe [@edgsig](https://github.com/edgsig) and Gabriela Montejo-Kovacevich [@gmkov](https://github.com/gmkov). Maintained by [@gmkov](https://github.com/gmkov).
 All the iNaturalists contributors
