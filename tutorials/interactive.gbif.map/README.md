@@ -5,7 +5,7 @@ Written by Edgar Signe [@edgsig](https://github.com/edgsig) and Gabriela Montejo
 [Click here to view the live interactive map](https://gmkov.github.io/mk-lab-public/map.gbif.photos.html)
 
 
-
+<br>
 
 
 # 🗘️ Interactive GBIF Map Tutorial
