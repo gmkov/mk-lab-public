@@ -40,7 +40,7 @@ This tutorial demonstrates how to download GBIF occurrence records, obtain eleva
 
 ## 🖥️ How to run it
 
-**Option 1:** `interactive.gbif.map.R` in **RStudio** and run it with your favourite species
+**Option 1:** open `interactive.gbif.map.R` in **RStudio** and run it with your favourite species
 
 **Option 2:**
 1. Open `interactive.gbif.map.Rmd` in **RStudio**
@@ -57,9 +57,9 @@ install.packages(c("rgbif", "leaflet", "dplyr", "sf", "elevatr", "kableExtra", "
 
 ## 🌐 How to view the map produced
 
-Desktop: Download and open html map files in a browser, e.g.: map.gbif.photos.html
+- Desktop: Download and open html map files in a browser, e.g.: map.gbif.photos.html
 
-Mobile phone: download html, save to files, and open on browser. On iPhone the only browser that allows this is Edge. Then you can **use it offline** for fieldwork, for instance.
+- Mobile phone: download html, save to files, and open on browser. On iPhone the only browser that allows this is Edge. Then you can **use it offline** for fieldwork, for instance.
 
 
 ---
