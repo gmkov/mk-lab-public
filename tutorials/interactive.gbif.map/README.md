@@ -57,9 +57,9 @@ install.packages(c("rgbif", "leaflet", "dplyr", "sf", "elevatr", "kableExtra", "
 
 ## 🌐 How to view the map produced
 
-Download and open html map files in a browser, e.g.: map.gbif.photos.html
+Desktop: Download and open html map files in a browser, e.g.: map.gbif.photos.html
 
-As GitHub Pages is enabled, one example can be viewed [here](https://gmkov.github.io/mk-lab-public/map.gbif.photos.html) 
+Mobile phone: download html, save to files, and open on browser. On iPhone the only browser that allows this is Edge. Then you can **use it offline** for fieldwork, for instance.
 
 
 ---
